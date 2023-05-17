@@ -13,3 +13,4 @@ This project is intended to be a more reliable and accessible way to search for 
 ## Appendix
 
 The neatbeans pprojec can be found on branch neatbeans. All remaining info is located on branch main.
+On the canva link, there are three options we are considering.
