@@ -10,3 +10,6 @@ This project is intended to be a more reliable and accessible way to search for 
 - [@MonkeDfo](https://www.github.com/MonkeDfo)
 - [@pimpow18](https://www.github.com/pimpow18)
 
+## Appendix
+
+The neatbeans pprojec can be found on branch neatbeans. All remaining info is located on branch main.
