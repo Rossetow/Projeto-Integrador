@@ -1,0 +1,12 @@
+.container-geral{
+    background-image: url(background.png);
+    background-size: auto;
+    background-position: center;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+}
+
+#logo-home{
+    width: 70%;
+}
