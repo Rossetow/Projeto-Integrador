@@ -1,0 +1,27 @@
+.container-login{
+    background-image: url(background-padrao.png);
+    background-size: auto;
+    background-position: center;
+    width: 100vw;
+    height: 100vh;
+}
+
+.container-login{
+    
+}
+.container-info{
+    display: flex;
+    flex-direction: column;
+    background-color: #10069F;
+    width: 80vw;
+    height: 45vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.form-group{
+    display: flex;
+    flex-direction: column;
+}
+

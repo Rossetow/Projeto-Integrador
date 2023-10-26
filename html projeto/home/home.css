@@ -1,12 +1,29 @@
+a{
+    text-decoration: none;
+    color: white;
+}
+
+
 .container-geral{
-    background-image: url(background.png);
+    background-image: url(background-home.png);
     background-size: auto;
     background-position: center;
     width: 100vw;
     height: 100vh;
     display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-#logo-home{
-    width: 70%;
+.botao-entrar{
+    height: 13vh;
+    width: 80vw;
+    background-color: #10069F;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Raleway';
+    font-size: 2.5em;
+    font-weight: bold;
 }
