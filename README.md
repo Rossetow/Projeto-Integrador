@@ -8,7 +8,10 @@ This project is intended to be a more reliable and accessible way to search for 
 - [@Rossetow](https://www.github.com/Rossetow)
 - [@Thaironn](https://www.github.com/Thaironn)
 - [@MonkeDfo](https://www.github.com/MonkeDfo)
-- [@pimpow18](https://www.github.com/pimpow18)
+
+## Mentor
+
+-[@compil3r](https://www.github.com/compil3r)
 
 ## Appendix
 
