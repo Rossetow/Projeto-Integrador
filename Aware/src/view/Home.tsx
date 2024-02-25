@@ -1,8 +1,19 @@
-import { Text, View } from "react-native"
+import { FlatList, Text, View } from "react-native"
 
 const Home = () => {
     return(
-        <Text>Hello</Text>
+        <View>
+            <Text>Hello</Text>
+        {/* <FlatList
+      data={}
+      renderItem={({ item }) => (
+        <Post
+        posts={item}
+        />
+      )}
+      keyExtractor={(item) => item.idPost}
+      /> */}
+        </View>
     )
 }
 

@@ -3,10 +3,11 @@ import { Text, TextInput, View, StyleSheet, Button } from "react-native"
 import DatePicker from 'react-native-date-picker'
 import { Dropdown } from 'react-native-element-dropdown';
 import AntDesign from '@expo/vector-icons/AntDesign';
+import { LoginStackProps } from "../types/Navigation";
 
 
 
-const SignUp = () => {
+const SignUp = ({ navigation }: LoginStackProps) => {
     const [date, setDate] = useState(new Date())
     const [open, setOpen] = useState(false)
 
@@ -33,7 +34,7 @@ const SignUp = () => {
         if (valueCidade || isFocus) {
             return (
                 <Text style={[styles.label, isFocus && { color: 'blue' }]}>
-                    Estado
+                    Cidade
                 </Text>
             );
         }
@@ -51,8 +52,8 @@ const SignUp = () => {
         { label: 'Item 8', value: '8' },
     ];
 
-    function saveUser(){
-
+    function saveUser() {
+        navigation.navigate("Login")
     }
 
     return (
@@ -60,14 +61,21 @@ const SignUp = () => {
             <Text>Bem-vind@!</Text>
             <Text>Qual seu nome?</Text>
             <TextInput
+                style={styles.input}
             />
             <Text>E-mail</Text>
             <TextInput
+                style={styles.input}
             />
             <Text>Senha</Text>
             <TextInput
+                style={styles.input}
+
             />
             <Text>Data de nascimento</Text>
+
+            {/* DataPicker does not work with Expo Go */}
+
             <DatePicker
                 modal
                 open={open}
@@ -80,7 +88,9 @@ const SignUp = () => {
                     setOpen(false)
                 }}
             />
-            {renderLabelEstado()}
+            <Text>
+                Estado
+            </Text>
             <Dropdown
                 style={[styles.dropdown, isFocus && { borderColor: 'blue' }]}
                 placeholderStyle={styles.placeholderStyle}
@@ -110,7 +120,9 @@ const SignUp = () => {
                     />
                 )}
             />
-            {renderLabelCidade  ()}
+            <Text>
+                Cidade
+            </Text>
             <Dropdown
                 style={[styles.dropdown, isFocus && { borderColor: 'blue' }]}
                 placeholderStyle={styles.placeholderStyle}
@@ -142,8 +154,8 @@ const SignUp = () => {
             />
 
             <Button
-            title="Criar conta"
-            onPress={() => saveUser()}
+                title="Criar conta"
+                onPress={() => saveUser()}
             />
 
         </View>
@@ -190,4 +202,10 @@ const styles = StyleSheet.create({
         height: 40,
         fontSize: 16,
     },
+    input: {
+        backgroundColor: "rgba(0,0,0,0)",
+        borderBottomColor: "#000",
+        borderBottomWidth: 1,
+        marginBottom: 10,
+    }
 });
