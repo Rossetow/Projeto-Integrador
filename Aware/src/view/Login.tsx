@@ -76,9 +76,10 @@ const Login = ({ navigation }:any) => {
             title="Login"
             color="#841584"
             />
-            <Text
-            onPress={navigation.navigate("SignUp")}
-            >Cadastre-se</Text>
+            <Button
+            onPress={()=>navigation.navigate("SignUp")}
+            title="Cadastre-se"
+            />
         </View>
 
     )
