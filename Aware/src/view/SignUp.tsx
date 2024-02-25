@@ -17,8 +17,6 @@ const SignUp = ({ navigation }: LoginStackProps) => {
     const [valueCidade, setValueCidade] = useState('');
     const [isFocus, setIsFocus] = useState(false);
 
-
-
     const renderLabelEstado = () => {
         if (valueEstado || isFocus) {
             return (
