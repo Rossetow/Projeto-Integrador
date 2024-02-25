@@ -11,7 +11,7 @@ This project is intended to be a more reliable and accessible way to search for 
 
 ## Mentor
 
--[@compil3r](https://www.github.com/compil3r)
+- [@compil3r](https://www.github.com/compil3r)
 
 ## Appendix
 
