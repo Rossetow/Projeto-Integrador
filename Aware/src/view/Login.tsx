@@ -1,20 +1,55 @@
 import { useState } from "react";
 import { View, Text, StyleSheet, TextInput, Alert, Button } from "react-native"
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { LoginStackProps } from "../types/Navigation";
+import SignUp from "./SignUp";
 
-const Login = () => {
+const Login = ({ navigation }:any) => {
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const storeData = async (value: any) => {
+        try{
+            const jsonValue = JSON.stringify(value)
+            await AsyncStorage.setItem("login", jsonValue);
+        } catch (e) {
+            Alert.alert("Alerta!", "Algo deu errado /n Código do erro: "+e, [{text: "Ok"}])
+            console.log("Error: " + e)
+        }
+    }
+
+    const getData = async () =>{    
+        try{
+            const jsonValue = await AsyncStorage.getItem("login");
+            return jsonValue != null ? JSON.parse(jsonValue) : null
+        } catch (e) {
+            Alert.alert("Alerta!", "Algo deu errado! /n Código do erro: "+e, [{text: "Ok"}])
+            console.log("Erro: " + e)
+        }
+    }
+
+    function errorLogin(){
+        styles.input ={
+            borderBottomColor: "#ff0000",
+            borderBottomWidth: 1,
+            marginBottom: 10,
+            backgroundColor: "ffa07a",
+        }
+    }
 
     const login = async () =>{
-        if (username !== '' && password !== '') {
-            Alert.alert("Alerta!", "Você está logado", [
-                
+        if(!username || !password){
+            Alert.alert("Alerta!", "Preencha os dados corretamente", [
+                {text:"Entendi!"}
             ])
+            return;
         } else {
-            Alert.alert("Alerta!", "Corrija as informações", [
-                
-            ])
+            const loginData = {
+                username,
+                password
+            }
+            storeData(loginData)
+            navigation.navigate("Home")
         }
     }
 
@@ -41,6 +76,9 @@ const Login = () => {
             title="Login"
             color="#841584"
             />
+            <Text
+            onPress={navigation.navigate("SignUp")}
+            >Cadastre-se</Text>
         </View>
 
     )
