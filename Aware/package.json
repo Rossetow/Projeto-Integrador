@@ -21,7 +21,9 @@
     "react-native-date-picker": "^4.3.6",
     "react-native-element-dropdown": "^2.10.1",
     "react-native-screens": "~3.29.0",
-    "react-native-web": "~0.19.6"
+    "react-native-web": "~0.19.6",
+    "styled-components": "^6.1.8",
+    "@react-native-community/datetimepicker": "7.6.1"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

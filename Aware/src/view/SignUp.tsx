@@ -1,44 +1,56 @@
-import { useState } from "react"
+import { useContext, useState } from "react"
 import { Text, TextInput, View, StyleSheet, Button } from "react-native"
-import DatePicker from 'react-native-date-picker'
 import { Dropdown } from 'react-native-element-dropdown';
 import AntDesign from '@expo/vector-icons/AntDesign';
-import { LoginStackProps } from "../types/Navigation";
+import DateTimePicker, { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
+import { UserContext } from "../Contexts/UserContect";
 
 
+const SignUp = ({ navigation }: any) => {
 
-const SignUp = ({ navigation }: LoginStackProps) => {
-    const [date, setDate] = useState(new Date())
-    const [open, setOpen] = useState(false)
+    //Getting data from the inputs
 
+    const [name, setName] = useState('')
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+    const [dateOfBirth, setDateOfBirth] = useState('')
+    const [state, setState] = useState('')
+    const [city, setCity] = useState('')
+    const [avatar, setAvatar] = useState('')
+    
+    //Date picker setters and getters declaration
 
+    const [date, setDate] = useState(new Date(1598051730000));
+    const [mode, setMode] = useState('date');
+    const [show, setShow] = useState(false);
+
+    const onChange = (event: any, selectedDate: any) => {
+        const currentDate = selectedDate;
+        setShow(false);
+        setDate(currentDate);
+        setDateOfBirth(`${date.getDay()}/${date.getMonth()}/${date.getFullYear()}`)
+    };
+
+    const showMode = (currentMode: any) => {
+        DateTimePickerAndroid.open({
+            value: date,
+            onChange,
+            mode: currentMode,
+            is24Hour: true,
+        });
+    };
+
+    const showDatepicker = () => {
+        showMode('date');
+    };
+
+    //State and city pickers ussStates delcarations
     const [valueEstado, setValueEstado] = useState('');
 
     const [valueCidade, setValueCidade] = useState('');
     const [isFocus, setIsFocus] = useState(false);
 
-    const renderLabelEstado = () => {
-        if (valueEstado || isFocus) {
-            return (
-                <Text style={[styles.label, isFocus && { color: 'blue' }]}>
-                    Estado
-                </Text>
-            );
-        }
-        return null;
-    };
-
-    const renderLabelCidade = () => {
-        if (valueCidade || isFocus) {
-            return (
-                <Text style={[styles.label, isFocus && { color: 'blue' }]}>
-                    Cidade
-                </Text>
-            );
-        }
-        return null;
-    };
-
+    //Provisory State and city data declaration
     const data = [
         { label: 'Item 1', value: '1' },
         { label: 'Item 2', value: '2' },
@@ -49,10 +61,17 @@ const SignUp = ({ navigation }: LoginStackProps) => {
         { label: 'Item 7', value: '7' },
         { label: 'Item 8', value: '8' },
     ];
-
-    function saveUser() {
+    const { setUser } = useContext(UserContext)
+    const saveUser = () => {
+        console.log("chegou aqui")
+        const userAdd = {name, email, password, dateOfBirth, state, city, avatar}
+        setUser(
+            userAdd
+        )
+        console.log( "user", userAdd)
         navigation.navigate("Login")
     }
+
 
     return (
         <View>
@@ -60,34 +79,27 @@ const SignUp = ({ navigation }: LoginStackProps) => {
             <Text>Qual seu nome?</Text>
             <TextInput
                 style={styles.input}
+                value={name}
+                onChangeText={setName}
             />
             <Text>E-mail</Text>
             <TextInput
                 style={styles.input}
+                onChangeText={setEmail}
+                value={email}
             />
             <Text>Senha</Text>
             <TextInput
                 style={styles.input}
-
+                onChangeText={setPassword}
+                value={password}
+                
             />
             <Text>Data de nascimento</Text>
 
-            {/* DataPicker does not work with Expo Go */}
-
-            <DatePicker
-                modal
-                open={open}
-                date={date}
-                onConfirm={(date) => {
-                    setOpen(false)
-                    setDate(date)
-                }}
-                onCancel={() => {
-                    setOpen(false)
-                }}
-            />
+            <Button onPress={showDatepicker} title="Data de nascimento" />
             <Text>
-                Estado
+                {dateOfBirth}
             </Text>
             <Dropdown
                 style={[styles.dropdown, isFocus && { borderColor: 'blue' }]}
@@ -108,6 +120,7 @@ const SignUp = ({ navigation }: LoginStackProps) => {
                 onChange={item => {
                     setValueEstado(item.value);
                     setIsFocus(false);
+                    setState(item.label)
                 }}
                 renderLeftIcon={() => (
                     <AntDesign
@@ -140,6 +153,7 @@ const SignUp = ({ navigation }: LoginStackProps) => {
                 onChange={item => {
                     setValueCidade(item.value);
                     setIsFocus(false);
+                    setCity(item.label)
                 }}
                 renderLeftIcon={() => (
                     <AntDesign
@@ -151,9 +165,16 @@ const SignUp = ({ navigation }: LoginStackProps) => {
                 )}
             />
 
+            <Text>Link para o avatar (Provisório)</Text>
+            <TextInput
+                style={styles.input}
+                onChangeText={setAvatar}
+                value={avatar}
+            />
+
             <Button
                 title="Criar conta"
-                onPress={() => saveUser()}
+                onPress={saveUser}
             />
 
         </View>
@@ -204,6 +225,6 @@ const styles = StyleSheet.create({
         backgroundColor: "rgba(0,0,0,0)",
         borderBottomColor: "#000",
         borderBottomWidth: 1,
-        marginBottom: 10,
+        marginBottom: 20,
     }
 });
