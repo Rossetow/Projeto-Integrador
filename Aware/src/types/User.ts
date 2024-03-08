@@ -1,3 +1,5 @@
+import { Post } from "./Post"
+
 export interface BasicUser{
     id: number
 }
@@ -20,4 +22,5 @@ export type User = {
     state: string,
     city: string,
     avatar: string,
+    favorites: Post[]
 }

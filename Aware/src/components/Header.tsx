@@ -1,9 +1,9 @@
-import React, { FC } from "react";
+import React, { FC, useContext } from "react";
 import { View, Image } from "react-native";
 import { SimpleLineIcons } from '@expo/vector-icons';
-
-
 import styled from 'styled-components/native';
+import { ThemeContext } from "../Contexts/ThemeContext";
+import {dark, light} from "../constants/theme" 
 
 const TextoFormatado = styled.Text`
   padding-left: 5px; 
@@ -32,6 +32,9 @@ interface Props {
 }
 
 const Header: FC<Props> = ({avatar, username}) => {
+
+    const { theme } = useContext(ThemeContext)
+
     return(
         <ContainerHeader>
             <UserHeader>
@@ -39,7 +42,7 @@ const Header: FC<Props> = ({avatar, username}) => {
                 <TextoFormatado>{username || `Unknown`}</TextoFormatado>
             </UserHeader>
             <View style={{justifyContent: "center"}}>
-                <SimpleLineIcons name="user-follow" size={25} color="#CBCCFF"/>
+                <SimpleLineIcons name="user-follow" size={25} color={theme === "dark" ? dark.color : light.color}/>
             </View>
         </ContainerHeader>
     )

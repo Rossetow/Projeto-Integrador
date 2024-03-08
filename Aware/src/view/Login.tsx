@@ -4,10 +4,14 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { LoginStackProps } from "../types/Navigation";
 import SignUp from "./SignUp";
 import { UserContext } from "../Contexts/UserContect";
+import { User } from "../types/User";
 
 const Login = ({ navigation }: any) => {
 
-    const { user } = useContext(UserContext)
+    //Setting default user for testing
+
+    const { user, setUser } = useContext(UserContext)
+    
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -41,32 +45,33 @@ const Login = ({ navigation }: any) => {
     }
 
     const login = async () => {
-        if (!username || !password) {
-            Alert.alert("Alerta!", "Preencha os dados corretamente", [
-                { text: "Entendi!" }
-            ])
-            return;
-        } else {
-            if (user.email === username && user.password === password) {
-                const loginData = {
-                    username,
-                    password
-                }
-                storeData(loginData)
-                navigation.navigate("Home")
-            } else {
-                Alert.alert("Alerta!", "Email ou senha incorreto", [
-                    { text: "Entendi!" }
-                ])
-                return
-            }
-        }
+        // if (!username || !password) {
+        //     Alert.alert("Alerta!", "Preencha os dados corretamente", [
+        //         { text: "Entendi!" }
+        //     ])
+        //     return;
+        // } else {
+        //     if (user.email === username && user.password === password) {
+        //         const loginData = {
+        //             username,
+        //             password
+        //         }
+        //         storeData(loginData)
+        //         navigation.navigate("Drawer")
+        //     } else {
+        //         Alert.alert("Alerta!", "Email ou senha incorreto", [
+        //             { text: "Entendi!" }
+        //         ])
+        //         return
+        //     }
+        // }
+        navigation.navigate("Drawer")
     }
 
     return (
         <View style={styles.container}>
             <Text>
-                Username
+                E-mail
             </Text>
             <TextInput
                 style={styles.input}
@@ -74,7 +79,7 @@ const Login = ({ navigation }: any) => {
                 value={username}
             />
             <Text>
-                Password
+                Senha
             </Text>
             <TextInput
                 style={styles.input}

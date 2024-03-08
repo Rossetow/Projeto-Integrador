@@ -3,6 +3,9 @@ import { StackRoutes } from "./stack.routes"
 import { useContext } from "react";
 import { Post } from "../types/Post";
 import { PostContext } from "../Contexts/PostContext";
+import { DrawerRoutes } from "./drawer.routes"
+import { UserContext } from "../Contexts/UserContect";
+import { User } from "../types/User";
 
 const Routes = () => {
   let idPost: number = 0;
@@ -56,8 +59,10 @@ const Routes = () => {
   const { setPost, posts } = useContext(PostContext)
   dataPost.forEach(post => {
     setPost(post)
-    console.log('app', post)
   });
+
+  
+
   return (
     <NavigationContainer>
       <StackRoutes />

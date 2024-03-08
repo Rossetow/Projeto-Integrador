@@ -1,6 +1,5 @@
-import { View, Text } from "react-native"
+import { View, Text, StyleSheet } from "react-native"
 import styled from "styled-components";
-import StyleSheet from "styled-components/dist/sheet/Sheet"
 import Header from "./Header";
 import Content from "./Content";
 import Footer from "./Footer";
@@ -8,9 +7,9 @@ import { FC } from "react";
 import { Post as PostData }  from "../types/Post";
 
 
-
+    
 interface Props {
-    post: PostData
+    post: PostData,
 }
 
 const Post : FC<Props> = ({
@@ -19,7 +18,6 @@ const Post : FC<Props> = ({
     return(
         <View>
             <View>
-                <Text>entrou</Text>
             <Header
                 avatar={post.avatar!}
                 username={post.username!}
@@ -38,5 +36,12 @@ const Post : FC<Props> = ({
     )
 }
 
-
 export default Post
+
+const styles = StyleSheet.create({
+    post:{
+        margin: 20,
+        backgroundColor: "#000",
+        color: "#fff"
+    }
+}) 

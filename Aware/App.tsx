@@ -5,33 +5,18 @@ import { PostContext, PostContextProvider } from './src/Contexts/PostContext';
 import { useContext } from 'react';
 import { Post } from './src/types/Post';
 import { UserContextProvider } from './src/Contexts/UserContect';
-
-export interface PostData {
-  idPost: string;
-  username?: string | null;
-  title?: string | null;
-  avatar?: string | null;
-  image?: string | null;
-  likes: number | undefined;
-  retweet: number | undefined;
-  comments: number | undefined;
-}
-
-
-
-
-
-
-
+import { ThemeContextProvider } from './src/Contexts/ThemeContext';
 
 export default function App() {
 
   return (
-    <UserContextProvider>
-      <PostContextProvider>
-        <Routes />
-      </PostContextProvider>
-    </UserContextProvider>
+    <ThemeContextProvider>
+      <UserContextProvider>
+        <PostContextProvider>
+          <Routes />
+        </PostContextProvider>
+      </UserContextProvider>
+    </ThemeContextProvider>
 
   );
 }

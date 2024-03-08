@@ -173,7 +173,7 @@ const SignUp = ({ navigation }: any) => {
             />
 
             <Button
-                title="Criar conta"
+                title="Salvar"
                 onPress={saveUser}
             />
 
