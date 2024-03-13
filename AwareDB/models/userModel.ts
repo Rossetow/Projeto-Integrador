@@ -3,7 +3,7 @@ import { OkPacket, RowDataPacket } from "mysql2"
 import { callbackify } from "util";
 import { error } from "console";
 import { off } from "process";
-import { User, UserDB } from "../types/User";
+import { UserDB } from "../types/User";
 
 export const create = (user: UserDB, callback: Function) => {
     const queryString = 'INSERT INTO User (name, email, password, dateOfBirth, state, city, avatar) VALUES (?, ?, ?, ?, ?, ?, ?)'
