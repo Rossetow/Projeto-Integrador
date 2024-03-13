@@ -15,7 +15,8 @@ CREATE TABLE User (
     password VARCHAR(50),
     dateOfBirth VARCHAR(10),
     state VARCHAR(20),
-    city VARCHAR(50)
+    city VARCHAR(50),
+    avatar VARCHAR(150)
 )
 
 -- Create table for posts
