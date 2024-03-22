@@ -34,7 +34,7 @@ const Home = ({ navigation }: any) => {
   
   return (
     <SafeAreaView style={styles.container}>
-      <Text>Hello</Text>
+      
       <Switch
         trackColor={{false: '#767577', true: '#81b0ff'}}
         thumbColor={isEnabled ? '#f5dd4b' : '#f4f3f4'}
@@ -42,6 +42,7 @@ const Home = ({ navigation }: any) => {
         onValueChange={toggleSwitch}
         value={isEnabled}
       />
+
       <FlatList
         data={ posts }
         renderItem={({ item }) => (
@@ -57,4 +58,3 @@ const Home = ({ navigation }: any) => {
 }
 
 export default Home
-

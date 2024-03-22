@@ -4,6 +4,8 @@ import { Dropdown } from 'react-native-element-dropdown';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import DateTimePicker, { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
 import { UserContext } from "../Contexts/UserContect";
+import { TouchableOpacity } from "react-native";
+
 
 
 const SignUp = ({ navigation }: any) => {
@@ -17,7 +19,7 @@ const SignUp = ({ navigation }: any) => {
     const [state, setState] = useState('')
     const [city, setCity] = useState('')
     const [avatar, setAvatar] = useState('')
-    
+
     //Date picker setters and getters declaration
 
     const [date, setDate] = useState(new Date(1598051730000));
@@ -64,43 +66,57 @@ const SignUp = ({ navigation }: any) => {
     const { setUser } = useContext(UserContext)
     const saveUser = () => {
         console.log("chegou aqui")
-        const userAdd = {name, email, password, dateOfBirth, state, city, avatar}
+        const userAdd = { name, email, password, dateOfBirth, state, city, avatar }
         setUser(
             userAdd
         )
-        console.log( "user", userAdd)
+        console.log("user", userAdd)
         navigation.navigate("Login")
     }
 
 
     return (
-        <View>
-            <Text>Bem-vind@!</Text>
-            <Text>Qual seu nome?</Text>
+        <View style={styles.container}>
+
+            <Text style={styles.awareText}>AWARE</Text>
+
             <TextInput
                 style={styles.input}
                 value={name}
                 onChangeText={setName}
+                placeholder="Nome completo:"
+                placeholderTextColor="#999"
             />
-            <Text>E-mail</Text>
+
+            <TextInput
+                style={styles.input}
+                onChangeText={setAvatar}
+                value={avatar}
+                placeholder="Nome de usuário:"
+                placeholderTextColor="#999"
+            />
+
             <TextInput
                 style={styles.input}
                 onChangeText={setEmail}
                 value={email}
+                placeholder="E-mail:"
+                placeholderTextColor="#999"
             />
-            <Text>Senha</Text>
+
             <TextInput
                 style={styles.input}
                 onChangeText={setPassword}
                 value={password}
-                
+                placeholder="Senha:"
+                placeholderTextColor="#999"
             />
-            <Text>Data de nascimento</Text>
 
-            <Button onPress={showDatepicker} title="Data de nascimento" />
-            <Text>
-                {dateOfBirth}
-            </Text>
+            <View style={styles.buttondata}>
+                <Button onPress={showDatepicker} title="Data de nascimento" color="black" />
+                <Text style={styles.buttonText}>{dateOfBirth}</Text>
+            </View>
+
             <Dropdown
                 style={[styles.dropdown, isFocus && { borderColor: 'blue' }]}
                 placeholderStyle={styles.placeholderStyle}
@@ -112,40 +128,7 @@ const SignUp = ({ navigation }: any) => {
                 maxHeight={300}
                 labelField="label"
                 valueField="value"
-                placeholder={!isFocus ? 'Select item' : '...'}
-                searchPlaceholder="Search..."
-                value={valueEstado}
-                onFocus={() => setIsFocus(true)}
-                onBlur={() => setIsFocus(false)}
-                onChange={item => {
-                    setValueEstado(item.value);
-                    setIsFocus(false);
-                    setState(item.label)
-                }}
-                renderLeftIcon={() => (
-                    <AntDesign
-                        style={styles.icon}
-                        color={isFocus ? 'blue' : 'black'}
-                        name="Safety"
-                        size={20}
-                    />
-                )}
-            />
-            <Text>
-                Cidade
-            </Text>
-            <Dropdown
-                style={[styles.dropdown, isFocus && { borderColor: 'blue' }]}
-                placeholderStyle={styles.placeholderStyle}
-                selectedTextStyle={styles.selectedTextStyle}
-                inputSearchStyle={styles.inputSearchStyle}
-                iconStyle={styles.iconStyle}
-                data={data}
-                search
-                maxHeight={300}
-                labelField="label"
-                valueField="value"
-                placeholder={!isFocus ? 'Select item' : '...'}
+                placeholder={!isFocus ? 'Cidade:' : '...'}
                 searchPlaceholder="Search..."
                 value={valueCidade}
                 onFocus={() => setIsFocus(true)}
@@ -165,17 +148,15 @@ const SignUp = ({ navigation }: any) => {
                 )}
             />
 
-            <Text>Link para o avatar (Provisório)</Text>
-            <TextInput
-                style={styles.input}
-                onChangeText={setAvatar}
-                value={avatar}
-            />
-
-            <Button
-                title="Salvar"
+            <TouchableOpacity
                 onPress={saveUser}
-            />
+                style={styles.button}
+            >
+                <Text style={styles.salvarcolor}>
+                    Sign Up
+                </Text>
+
+            </TouchableOpacity>
 
         </View>
     )
@@ -187,13 +168,18 @@ const styles = StyleSheet.create({
     container: {
         backgroundColor: 'white',
         padding: 16,
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     dropdown: {
         height: 50,
+        width: 220,
         borderColor: 'gray',
         borderWidth: 0.5,
         borderRadius: 8,
         paddingHorizontal: 8,
+        marginTop: 15,
     },
     icon: {
         marginRight: 5,
@@ -222,9 +208,43 @@ const styles = StyleSheet.create({
         fontSize: 16,
     },
     input: {
-        backgroundColor: "rgba(0,0,0,0)",
-        borderBottomColor: "#000",
-        borderBottomWidth: 1,
+        height: 40,
+        width: '80%',
+        margin: 12,
+        padding: 10,
+        borderWidth: 1,
+        borderColor: '#999',
+        borderRadius: 3,
+    },
+
+    //Mudançar e novas informações, logo a baixo (Pedro)
+
+    awareText: {
+        fontSize: 46,
+        fontWeight: 'bold',
         marginBottom: 20,
-    }
+        textAlign: 'center',
+    },
+    button: {
+        paddingVertical: 7,
+        paddingHorizontal: 60,
+        backgroundColor: "black",
+        borderRadius: 3,
+        marginTop: 20,
+        color: "white", // Adicionando a cor branca para o texto
+    },
+    salvarcolor: {
+        color: "white"
+    },
+    buttondata: {
+        borderRadius: 3,
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    buttonText: {
+        color: 'black',
+        marginLeft: 10,
+    },
+
 });
+

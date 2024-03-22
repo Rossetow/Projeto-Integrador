@@ -9,10 +9,6 @@ interface Props {
     image: string | null;
 }
 
-
-
-
-
 const Content: FC<Props> = ({ title, image }) => {
 
     const { theme } = useContext(ThemeContext)
