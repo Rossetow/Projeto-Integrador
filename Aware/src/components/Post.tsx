@@ -5,8 +5,6 @@ import Content from "./Content";
 import Footer from "./Footer";
 import { FC } from "react";
 import { Post as PostData }  from "../types/Post";
-
-
     
 interface Props {
     post: PostData,

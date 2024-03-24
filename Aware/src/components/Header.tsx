@@ -5,25 +5,27 @@ import styled from 'styled-components/native';
 import { ThemeContext } from "../Contexts/ThemeContext";
 import {dark, light} from "../constants/theme" 
 
+const ContainerHeader = styled.View`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+  padding: 10px;
+  margin: 0px 0px 0px 0px; /* Possibilidade de separar os post, dando melhor visão para tudo */
+`;
+
+const UserHeader = styled.View`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+`;
+
 const TextoFormatado = styled.Text`
   padding-left: 5px; 
   font-weight: bold; 
   font-size:15px;
-  color:white;
+  color:black;
 `;
-
-const ContainerHeader = styled.View`
-display: flex;
-flex-direction: row;
-justify-content: space-between;
-width: 100%;
-padding: 10px;
-`
-const UserHeader = styled.View`
-display: flex;
-flex-direction: row;
-align-items: center;
-`
 
 
 interface Props {
