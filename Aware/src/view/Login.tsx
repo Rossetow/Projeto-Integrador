@@ -4,14 +4,9 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { LoginStackProps } from "../types/Navigation";
 import SignUp from "./SignUp";
 import { UserContext } from "../Contexts/UserContect";
-<<<<<<< HEAD
 import { User, UserDB } from "../types/User";
 import axios from "axios";
-=======
-import { User } from "../types/User";
-import { TouchableOpacity } from "react-native";
 
->>>>>>> refs/remotes/origin/main
 
 const Login = ({ navigation }: any) => {
 
