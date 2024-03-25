@@ -1,10 +1,7 @@
 import { Post } from "./Post"
 
-export interface BasicUser{
-    id: number
-}
-
-export interface UserDB extends BasicUser{
+export type UserDB={
+    id?: number;
     name: string
     email: string,
     password: string,

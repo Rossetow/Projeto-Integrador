@@ -11,7 +11,8 @@ const Login = ({ navigation }: any) => {
 
     //Setting default user for testing
 
-    const { user, setUser } = useContext(UserContext)
+    const { login, setUser } = useContext(UserContext)
+
 
     
     
@@ -47,7 +48,7 @@ const Login = ({ navigation }: any) => {
         }
     }
 
-    const login = async () => {
+    const handleLogin = async () => {
         // if (!username || !password) {
         //     Alert.alert("Alerta!", "Preencha os dados corretamente", [
         //         { text: "Entendi!" }
@@ -68,6 +69,12 @@ const Login = ({ navigation }: any) => {
         //         return
         //     }
         // }
+
+        try{
+            login(username, password)
+        } catch (e) {
+            console.log("Error:", e)
+        }
         navigation.navigate("Drawer")
     }
 
@@ -109,7 +116,7 @@ const Login = ({ navigation }: any) => {
                 value={password}
             />
             <Button
-                onPress={login}
+                onPress={handleLogin}
                 title="Login"
                 color="#841584"
             />

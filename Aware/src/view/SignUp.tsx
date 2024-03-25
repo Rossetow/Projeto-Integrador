@@ -61,15 +61,13 @@ const SignUp = ({ navigation }: any) => {
         { label: 'Item 7', value: '7' },
         { label: 'Item 8', value: '8' },
     ];
-    const { setUser } = useContext(UserContext)
+    const { signUp } = useContext(UserContext)
     const saveUser = () => {
         console.log("chegou aqui")
         const userAdd = {name, email, password, dateOfBirth, state, city, avatar}
-        setUser(
+        signUp(
             userAdd
         )
-        console.log( "user", userAdd)
-        navigation.navigate("Login")
     }
 
 
