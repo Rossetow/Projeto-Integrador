@@ -1,16 +1,19 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { View, Text, StyleSheet, TextInput, Alert, Button } from "react-native"
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { LoginStackProps } from "../types/Navigation";
 import SignUp from "./SignUp";
 import { UserContext } from "../Contexts/UserContect";
-import { User } from "../types/User";
+import { User, UserDB } from "../types/User";
+import axios from "axios";
 
 const Login = ({ navigation }: any) => {
 
     //Setting default user for testing
 
     const { user, setUser } = useContext(UserContext)
+
+    
     
 
     const [username, setUsername] = useState('');
@@ -67,6 +70,25 @@ const Login = ({ navigation }: any) => {
         // }
         navigation.navigate("Drawer")
     }
+
+    const setStateForUser = async () => {
+
+        console.log("OI")
+        try {
+          const urlUser = `https://localhost:3000/user`
+    
+          const response = await axios.get<UserDB[]>(urlUser);
+          response.data.forEach(element => {
+            setUsername(element.name)
+            console.log(element)
+            console.log("oi")
+          });
+        } catch (err) {
+          console.log("err:", err)
+        }
+    }
+    
+      useEffect(()=>{setStateForUser()}, [])
 
     return (
         <View style={styles.container}>
