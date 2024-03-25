@@ -1,11 +1,17 @@
 import { useContext, useEffect, useState } from "react";
-import { View, Text, StyleSheet, TextInput, Alert, Button } from "react-native"
+import { View, Text, StyleSheet, TextInput, Alert, Button, TouchableOpacity } from "react-native"
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { LoginStackProps } from "../types/Navigation";
 import SignUp from "./SignUp";
 import { UserContext } from "../Contexts/UserContect";
+<<<<<<< HEAD
 import { User, UserDB } from "../types/User";
 import axios from "axios";
+=======
+import { User } from "../types/User";
+import { TouchableOpacity } from "react-native";
+
+>>>>>>> refs/remotes/origin/main
 
 const Login = ({ navigation }: any) => {
 
@@ -39,6 +45,10 @@ const Login = ({ navigation }: any) => {
         }
     }
 
+    /*
+
+    Não sei por que mas essa parte da dando como erro, dar uma olhdada depois. (Pedro)
+
     function errorLogin() {
         styles.input = {
             borderBottomColor: "#ff0000",
@@ -47,6 +57,7 @@ const Login = ({ navigation }: any) => {
             backgroundColor: "ffa07a",
         }
     }
+    */
 
     const handleLogin = async () => {
         // if (!username || !password) {
@@ -98,50 +109,90 @@ const Login = ({ navigation }: any) => {
       useEffect(()=>{setStateForUser()}, [])
 
     return (
-        <View style={styles.container}>
-            <Text>
-                E-mail
-            </Text>
-            <TextInput
-                style={styles.input}
-                onChangeText={setUsername}
-                value={username}
-            />
-            <Text>
-                Senha
-            </Text>
-            <TextInput
-                style={styles.input}
-                onChangeText={setPassword}
-                value={password}
-            />
-            <Button
-                onPress={handleLogin}
-                title="Login"
-                color="#841584"
-            />
-            <Button
-                onPress={() => navigation.navigate("SignUp")}
-                title="Cadastre-se"
-            />
-        </View>
 
-    )
+    <View style={styles.container}>
+        
+        <Text style={styles.awareText}>AWARE</Text>
+        
+        <TextInput
+            style={styles.input}
+            onChangeText={setUsername}
+            value={username}
+            placeholder="E-mail"
+            placeholderTextColor="#999"
+        />
+        <TextInput
+            style={styles.input}
+            onChangeText={setPassword}
+            value={password}
+            placeholder="Senha"
+            placeholderTextColor="#999"
+        />
+        <View style={{justifyContent:'space-between'}}>
+       
+       <TouchableOpacity
+       onPress={handleLogin}
+       style={styles.button}
+       >
+        <Text style={styles.logincolor}>
+            Login
+        </Text>
+        
+       </TouchableOpacity>
+
+        <View style={styles.registerContainer}>
+            <Text>Não tem uma conta?</Text>
+            <TouchableOpacity onPress={() => navigation.navigate("SignUp")}>
+                <Text style={styles.registerLink}> Registre-se </Text>
+            </TouchableOpacity>
+        </View>
+        </View>
+       
+    </View>
+);
+
 }
 
 export default Login;
 
 const styles = StyleSheet.create({
-    input: {
-        backgroundColor: "rgba(0,0,0,0)",
-        borderBottomColor: "#000",
-        borderBottomWidth: 1,
-        marginBottom: 10,
-    },
     container: {
         flex: 1,
-        justifyContent: "center",
-        alignContent: "center",
-        margin: 10
-    }
-})
+        justifyContent: 'center',
+        alignItems: 'center',
+        position:'relative'
+    },
+    input: {
+        height: 40,
+        width: '80%',
+        margin: 12,
+        padding: 10,
+        borderWidth: 1,
+        borderColor: '#999',
+        borderRadius: 3,
+    },
+    awareText: {
+        fontSize: 46,
+        fontWeight: 'bold',
+        marginBottom: 20,
+    },
+    registerContainer: {
+        flexDirection: 'row',
+        position:'absolute',
+        bottom:-210,
+        right:-34
+    },
+    registerLink: {
+        color: 'blue',
+    },
+    button: {
+        paddingVertical: 7,
+        paddingHorizontal: 60,
+        backgroundColor: "black",
+        borderRadius: 3,
+        color:"white"
+    },
+    logincolor: {
+        color: "white"
+    },
+});

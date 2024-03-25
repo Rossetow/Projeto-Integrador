@@ -9,10 +9,6 @@ interface Props {
     image: string | null;
 }
 
-
-
-
-
 const Content: FC<Props> = ({ title, image }) => {
 
     const { theme } = useContext(ThemeContext)
@@ -29,7 +25,8 @@ const Content: FC<Props> = ({ title, image }) => {
     const Texto = styled.Text`
     font-size: 15px;
     color: ${theme === "dark" ? dark.color : light.color};
-    margin-bottom: 5px;
+    margin-bottom: 10px;
+    margin-left: 7px
     `
 
     return (

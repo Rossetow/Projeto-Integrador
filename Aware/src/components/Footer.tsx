@@ -23,14 +23,17 @@ const Footer: FC<Props> = ({ post }) => {
     align-items: center;
     `
 
+    //Pate do comentario e compartilhar
     const ContainerFooter = styled.View`
-    margin-top: 20px;
+    margin-top: 10px;
+    margin-bottom: 10px;
     display: flex;
     flex-direction: row;
     width: 100%;
     justify-content: space-around;
     background-color: ${theme === "dark" ? dark.background : light.background};
-    `
+    `;
+
     const ValuesFooter = styled.Text`
     color: ${theme === "dark" ? dark.color : light.color};
     `
