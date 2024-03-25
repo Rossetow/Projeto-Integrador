@@ -31,3 +31,11 @@ CREATE TABLE User (
     retweet INT,
     comments INT
 )
+
+-- Create table for integrating user with posts
+
+CREATE TABLE IntegrationUserPost (
+    id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
+    idUser INT NOT NULL,
+    idPost INT NOT NULL
+)

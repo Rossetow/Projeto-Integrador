@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteUser = exports.findAll = exports.findOne = exports.update = exports.create = void 0;
 const db_1 = require("../dist/db");
 const create = (user, callback) => {
-    const queryString = 'INSERT INTO User (name, email, password, dateOfBirth, state, city, avatar) VALUES (?, ?, ?, ?, ?, ?, ?)';
+    const queryString = 'INSERT INTO User VALUES (?, ?, ?, ?, ?, ?, ?)';
     db_1.db.query(queryString, [
         user.name,
         user.email,

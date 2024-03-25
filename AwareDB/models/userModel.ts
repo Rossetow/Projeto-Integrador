@@ -6,7 +6,7 @@ import { off } from "process";
 import { UserDB } from "../types/User";
 
 export const create = (user: UserDB, callback: Function) => {
-    const queryString = 'INSERT INTO User (name, email, password, dateOfBirth, state, city, avatar) VALUES (?, ?, ?, ?, ?, ?, ?)'
+    const queryString = 'INSERT INTO User VALUES (?, ?, ?, ?, ?, ?, ?)'
 
     db.query(
         queryString,
@@ -118,4 +118,33 @@ export const deleteUser = (costumerId: number, callback: Function) => {
             callback(null)
         }
     })
+}
+
+export const Login = (email: string, password:string, callback: Function) => {
+    const queryString = `
+    SELECT 
+        *
+    FROM User
+    
+    WHERE email = ? AND password = ?;
+    `
+
+    db.query(
+        queryString, [email, password], (err, result) => {
+            if (err) { callback(err) }
+
+            const row = (<RowDataPacket>result)[0]
+            const user: UserDB = {
+                id: row.id,
+                name: row.name,
+                email: row.email,
+                password: row.password,
+                dateOfBirth: row.dateOfBirth,
+                state: row.state,
+                city: row.city,
+                avatar: row.avatar
+            }
+            callback(null, user)
+        }
+    )
 }

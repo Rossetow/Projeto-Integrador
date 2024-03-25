@@ -30,10 +30,12 @@ const dotenv = __importStar(require("dotenv"));
 const express_1 = __importDefault(require("express"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const userRouter_1 = require("../routes/userRouter");
+const integrationUserPostRouter_1 = require("../routes/integrationUserPostRouter");
 const app = (0, express_1.default)();
 dotenv.config();
 app.use(body_parser_1.default.json());
 app.use("/user", userRouter_1.userRouter);
+app.use("/integration", integrationUserPostRouter_1.integrationRouter);
 app.listen(process.env.PORT, () => {
     console.log("Node server is running");
 });
