@@ -13,7 +13,6 @@ type UserContextProps = {
     setUserDB: (user: UserDB) => void;
     user: User | null;
     setUser: (user: User | null) => void;
-    getUser: (email: string, password: string) => void;
     login: (email: string, password: string) => void;
     logout: () => void;
     signUp: (user: UserDB) => void;
@@ -156,6 +155,7 @@ export const UserContextProvider = ({ children }: UserProviderProps) => {
                 setToken,
                 getToken,
                 user,
+                userDB,
                 setUser,
                 setUserDB,
                 login,
