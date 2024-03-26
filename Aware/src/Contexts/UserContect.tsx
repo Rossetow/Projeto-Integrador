@@ -4,7 +4,9 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { User, UserDB } from "../types/User";
 import { Post } from "../types/Post";
 import { db } from "../db";
-import { collection, addDoc, getDoc } from "firebase/firestore"; 
+import { collection, addDoc, getDoc, deleteDoc, doc, getFirestore, } from "firebase/firestore";
+import { getDatabase, ref, child, get, set } from "firebase/database";
+
 
 
 type UserContextProps = {
@@ -18,7 +20,8 @@ type UserContextProps = {
     login: (email: string) => Promise<boolean>;
     logout: () => void;
     signUp: (user: UserDB) => void;
-
+    updateUser: (user: UserDB) => void;
+    deleteUser: (email:string) => void;
 };
 
 type UserProviderProps = {
@@ -66,81 +69,122 @@ export const UserContextProvider = ({ children }: UserProviderProps) => {
 
     const login = async (email: string) => {
         try {
-            console.log("io to no login")
-
-            try {
-                const urlUser = `http://localhost:3000/aware/user/${email}`
-
-                const response = await axios.get(urlUser);
-                console.log(response.data)
-            } catch (err) {
-                console.log("err:", err)
-            }
+            const dbRef = ref(getDatabase());
+            console.log(email);
             
-        } catch (error) {
-            console.log("Error:", error)
+            get(child(dbRef, `users/${email}`)).then((snapshot) => {
+                if (snapshot.exists()) {
+
+                    const newUserDB:UserDB = {
+                        name: snapshot.val().name,
+                        email: snapshot.val().email,
+                        password: snapshot.val().password,
+                        city: snapshot.val().city,
+                        state: snapshot.val().state,
+                        dateOfBirth: snapshot.val().dateOfBirth,
+                        avatar: snapshot.val().avatar,
+                    }
+
+                    console.log(newUserDB)
+
+                    setUserDB(newUserDB)
+                    console.log(userDB)
+
+                } else {
+                    console.log("No data available");
+                }
+            }).catch((error) => {
+                console.error(error);
+            });
+        } catch (e) {
+            console.log("Error:",e);   
         }
 
         
         setToken("a")
         storeToken("a")
-        if(userDB)
+        if (userDB)
             return true
 
         return false
 
     };
 
-    const setPostsForUser = async (postIds: number[]) => {
-        try {
-            postIds.forEach(async id => {
-                const urlUser = `https://localhost:3000/posts/${id}`
-                const posts: Post[] = []
-                const response = await axios.get<Post[]>(urlUser);
-                response.data.forEach(element => {
-                    posts.push(element)
-                });
+    // const setPostsForUser = async (postIds: number[]) => {
+    //     try {
+    //         postIds.forEach(async id => {
+    //             const urlUser = `https://localhost:3000/posts/${id}`
+    //             const posts: Post[] = []
+    //             const response = await axios.get<Post[]>(urlUser);
+    //             response.data.forEach(element => {
+    //                 posts.push(element)
+    //             });
 
-                let userAdd: User = {
-                    name: userDB!.name,
-                    email: userDB!.email,
-                    password: userDB!.password,
-                    dateOfBirth: userDB!.dateOfBirth,
-                    state: userDB!.state,
-                    city: userDB!.city,
-                    avatar: userDB!.avatar,
-                    favorites: posts
-                }
-                setUser(userAdd);
-            })
+    //             let userAdd: User = {
+    //                 name: userDB!.name,
+    //                 email: userDB!.email,
+    //                 password: userDB!.password,
+    //                 dateOfBirth: userDB!.dateOfBirth,
+    //                 state: userDB!.state,
+    //                 city: userDB!.city,
+    //                 avatar: userDB!.avatar,
+    //                 favorites: posts
+    //             }
+    //             setUser(userAdd);
+    //         })
+    //     } catch (e) {
+
+    //     }
+    // }
+
+    const signUp = async (user: UserDB) => {
+    
+        try {
+            const db = getDatabase();
+            set(ref(db, 'users/' + user.email), {
+              name: user.name,
+              email: user.email,
+              password : user.password,
+              dateOfBirth: user.dateOfBirth,
+              city: user.city,
+              state: user.state,
+              avatar: user.avatar
+            });
         } catch (e) {
-
+            console.log("Error:", e);    
         }
-    }
-
-    const signUp = async(user: UserDB) => {
-        try {
-            const urlUser = `https://localhost:3000/user/`
-
-            const response = await axios.post(urlUser, user);
-        } catch (err) {
-            console.log("err:", err)
-        }
-
-        console.log(userDB)
-
+          
     }
 
     const logout = async () => {
         await AsyncStorage.removeItem("@token");
         await AsyncStorage.removeItem("@user");
         setToken("");
-        await AsyncStorage.removeItem("@cart");
         setUser(null);
         setUserDB(null);
     };
 
+    const updateUser = async(user: UserDB) => {
+        try {
+            const db = getDatabase();
+            set(ref(db, 'users/' + user.email), {
+              name: user.name,
+              email: user.email,
+              password : user.password,
+              dateOfBirth: user.dateOfBirth,
+              city: user.city,
+              state: user.state,
+              avatar: user.avatar
+            });
+        } catch (e) {
+            console.log("Error:", e);    
+        }
+    }
 
+    const deleteUser = async(email: string) => {
+        const dbFire = getFirestore()
+        deleteDoc(doc(dbFire, 'users', email))
+    }
 
     return (
         <UserContext.Provider
@@ -154,7 +198,9 @@ export const UserContextProvider = ({ children }: UserProviderProps) => {
                 setUserDB,
                 login,
                 logout,
-                signUp
+                signUp,
+                updateUser,
+                deleteUser
             }}
         >
             {children}

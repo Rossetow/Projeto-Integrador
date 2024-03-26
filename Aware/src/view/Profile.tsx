@@ -9,7 +9,7 @@ import { dark, light } from "../constants/theme";
 
 const Profile = ({ navigation }: any) => {
     //Get user context 
-    const {user, setUser} = useContext(UserContext)
+    const {userDB, setUser, updateUser, deleteUser} = useContext(UserContext)
     const { theme, setTheme } = useContext(ThemeContext)
 
     //User useStates
@@ -21,12 +21,30 @@ const Profile = ({ navigation }: any) => {
     const [city, setCity] = useState('')
     const [avatar, setAvatar] = useState('')
 
-    const updateUser = () => {
+    const changeUser = () => {
         setIsEditable(true)
     }
 
     const teste = () => {
         setIsEditable(false)
+    }
+
+    const handleUpdateUser = async() => {
+        const userUpdate = {
+            name,
+            email,
+            password,
+            dateOfBirth,
+            state,
+            city,
+            avatar
+        }
+
+        updateUser(userUpdate)
+    }
+
+    const handleDelete = async() => {
+        deleteUser(email)
     }
 
     const [isEditable, setIsEditable] = useState(false)
@@ -51,55 +69,64 @@ const Profile = ({ navigation }: any) => {
             <TextInput 
             style={styles.input}
             editable={isEditable}
-            value={user.name}
+            value={userDB!.name}
             />
 
             <TextInput 
             style={styles.input}
             editable={isEditable}
-            value={user.email}
+            value={userDB!.email}
             />
 
             <TextInput 
             style={styles.input}
             editable={isEditable}
-            value={user.password}
+            value={userDB!.password}
             />
             
             <TextInput 
             style={styles.input}
             editable={isEditable}
-            value={user.dateOfBirth}
+            value={userDB!.dateOfBirth}
             />
 
             <TextInput 
             style={styles.input}
             editable={isEditable}
-            value={user.state}
+            value={userDB!.state}
             />
 
             <TextInput 
             style={styles.input}
             editable={isEditable}
-            value={user.city}
+            value={userDB!.city}
             />
 
             <TextInput 
             style={styles.input}
             editable={isEditable}
-            value={user.avatar}
+            value={userDB!.avatar}
             />
 
             <Button 
             title="Alterar dados"
-            onPress={()=>updateUser()}
+            onPress={()=>changeUser()}
             />
 
             <TextInput
-            value={user.name}
+            value={userDB!.name}
 
             />
 
+            <Button
+            title="salvar"
+            onPress={handleUpdateUser}
+            />
+
+            <Button
+            title="Excluir conta"
+            onPress={handleDelete}
+            />
 
         </View>
     )

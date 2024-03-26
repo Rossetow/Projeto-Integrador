@@ -5,6 +5,7 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 import DateTimePicker, { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
 import { UserContext } from "../Contexts/UserContect";
 import { TouchableOpacity } from "react-native";
+import { UserDB } from "../types/User";
 
 
 
@@ -66,7 +67,7 @@ const SignUp = ({ navigation }: any) => {
     const { signUp } = useContext(UserContext)
     const saveUser = () => {
         console.log("chegou aqui")
-        const userAdd = {name, email, password, dateOfBirth, state, city, avatar}
+        const userAdd:UserDB = {name, email, password, dateOfBirth, state, city, avatar}
         signUp(
             userAdd
         )

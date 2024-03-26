@@ -1,8 +1,8 @@
 import { initializeApp } from "firebase/app";
-import { getDatabase } from "firebase/database";
+import { Database, getDatabase } from "firebase/database";
 
 
-let exportDB
+let exportDB: Database
 const startDB = () => {
     // TODO: Replace the following with your app's Firebase project configuration
 // See: https://firebase.google.com/docs/web/learn-more#config-object
