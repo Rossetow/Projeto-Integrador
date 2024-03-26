@@ -1,0 +1,14 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "admin",
+      "email": "admin@admin.com",
+      "password": "admin",
+      "dateOfBirth": "11/11/1111",
+      "state": "XX",
+      "city": "XX",
+      "avatar": "https://imgs.search.brave.com/XKXTqFWFgztPJD8ntBDHOgVwdsEFsUe98MdupWrSTW4/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9wYWxl/c3RyYXBhcmFwcm9m/ZXNzb3Jlcy5jb20u/YnIvd3AtY29udGVu/dC91cGxvYWRzLzIw/MjIvMTIvZm90b3Mt/cGFyYS1wZXJmaWwt/Y29lbGhvLWJleGln/YS5wbmc"
+    }
+  ]
+}

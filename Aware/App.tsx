@@ -8,10 +8,13 @@ import { UserContextProvider } from './src/Contexts/UserContect';
 import { ThemeContextProvider } from './src/Contexts/ThemeContext';
 import axios from 'axios';
 import { UserDB } from './src/types/User';
+import { startDB } from './src/db';
 
 export default function App() {
 
-  
+  useEffect(()=>{
+    startDB()
+  }, [])
 
   return (
     <ThemeContextProvider>

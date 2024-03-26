@@ -15,9 +15,6 @@ const Login = ({ navigation }: any) => {
     const { login, setUser } = useContext(UserContext)
 
 
-    
-    
-
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const storeData = async (value: any) => {
@@ -77,31 +74,15 @@ const Login = ({ navigation }: any) => {
         // }
 
         try{
-            login(username, password)
+            if(await login(username))
+                navigation.navigate("Drawer")
         } catch (e) {
             console.log("Error:", e)
         }
-        navigation.navigate("Drawer")
+        
     }
 
-    const setStateForUser = async () => {
-
-        console.log("OI")
-        try {
-          const urlUser = `https://localhost:3000/user`
     
-          const response = await axios.get<UserDB[]>(urlUser);
-          response.data.forEach(element => {
-            setUsername(element.name)
-            console.log(element)
-            console.log("oi")
-          });
-        } catch (err) {
-          console.log("err:", err)
-        }
-    }
-    
-      useEffect(()=>{setStateForUser()}, [])
 
     return (
 

@@ -2,8 +2,10 @@ import axios from "axios";
 import { ReactNode, createContext, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { User, UserDB } from "../types/User";
-import e from "express";
 import { Post } from "../types/Post";
+import { db } from "../db";
+import { collection, addDoc, getDoc } from "firebase/firestore"; 
+
 
 type UserContextProps = {
     token: string;
@@ -13,7 +15,7 @@ type UserContextProps = {
     setUserDB: (user: UserDB) => void;
     user: User | null;
     setUser: (user: User | null) => void;
-    login: (email: string, password: string) => void;
+    login: (email: string) => Promise<boolean>;
     logout: () => void;
     signUp: (user: UserDB) => void;
 
@@ -36,7 +38,7 @@ export const UserContextProvider = ({ children }: UserProviderProps) => {
         try {
             await AsyncStorage.setItem("@token", value);
         } catch (error) {
-            console.log("Error:", e)
+            console.log("Error:", error)
         }
     };
 
@@ -62,41 +64,31 @@ export const UserContextProvider = ({ children }: UserProviderProps) => {
         }
     };
 
-    const login = async (username: string, password: string) => {
+    const login = async (email: string) => {
         try {
+            console.log("io to no login")
 
             try {
-                const urlUser = `https://localhost:3000/user/${username}_${password}`
+                const urlUser = `http://localhost:3000/aware/user/${email}`
 
-                const response = await axios.get<UserDB[]>(urlUser);
-                response.data.forEach(element => {
-                    setUserDB(element);
-                });
+                const response = await axios.get(urlUser);
+                console.log(response.data)
             } catch (err) {
                 console.log("err:", err)
             }
-
-            try {
-                const urlUser = `https://localhost:3000/integration/${userDB?.id}`
-                const postIds: number[] = []
-                const response = await axios.get<number[]>(urlUser);
-                response.data.forEach(element => {
-                    postIds.push(element)
-                });
-
-                setPostsForUser(postIds)
-            } catch (err) {
-                console.log("err:", err)
-            }
-
-
-
+            
         } catch (error) {
             console.log("Error:", error)
         }
 
+        
         setToken("a")
         storeToken("a")
+        if(userDB)
+            return true
+
+        return false
+
     };
 
     const setPostsForUser = async (postIds: number[]) => {
@@ -134,6 +126,8 @@ export const UserContextProvider = ({ children }: UserProviderProps) => {
         } catch (err) {
             console.log("err:", err)
         }
+
+        console.log(userDB)
 
     }
 
