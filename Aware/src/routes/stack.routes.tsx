@@ -26,6 +26,12 @@ export const StackRoutes = () => {
             name="Drawer"
             component = {DrawerRoutes}
             />
+            <Stack.Screen
+            options={{headerShown: false}}
+            name="Profile"
+            component = {Profile}
+            />
+
             
         </Stack.Navigator>
     )

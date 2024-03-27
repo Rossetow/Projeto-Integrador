@@ -7,7 +7,6 @@ export type UserDB={
     password: string,
     dateOfBirth: string,
     state: string,
-    city: string,
     avatar: string,
 }
 

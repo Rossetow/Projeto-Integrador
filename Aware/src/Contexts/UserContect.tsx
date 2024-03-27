@@ -6,8 +6,8 @@ import { Post } from "../types/Post";
 import { db } from "../db";
 import { collection, addDoc, getDoc, deleteDoc, doc, getFirestore, } from "firebase/firestore";
 import { getDatabase, ref, child, get, set } from "firebase/database";
-
-
+import Toast from "react-native-root-toast";
+import { Alert } from "react-native";
 
 type UserContextProps = {
     token: string;
@@ -67,47 +67,44 @@ export const UserContextProvider = ({ children }: UserProviderProps) => {
         }
     };
 
-    const login = async (email: string) => {
-        try {
+    const login = async (username: string) => {
+        
             const dbRef = ref(getDatabase());
-            console.log(email);
+            console.log('username',username);
             
-            get(child(dbRef, `users/${email}`)).then((snapshot) => {
+        const response = get(child(dbRef, `users/${username}`)).then((snapshot) => {
                 if (snapshot.exists()) {
 
                     const newUserDB:UserDB = {
                         name: snapshot.val().name,
                         email: snapshot.val().email,
                         password: snapshot.val().password,
-                        city: snapshot.val().city,
                         state: snapshot.val().state,
                         dateOfBirth: snapshot.val().dateOfBirth,
                         avatar: snapshot.val().avatar,
                     }
 
-                    console.log(newUserDB)
+                   
 
                     setUserDB(newUserDB)
                     console.log(userDB)
-
+                    setToken("a")
+                    storeToken("a")
+                    console.log('user', userDB)
+                    return true;
                 } else {
+
+                    Alert.alert('Erro', 'Não foi possível logar', [
+                        {text: 'OK'},
+                      ]);
                     console.log("No data available");
+                    return false
                 }
             }).catch((error) => {
                 console.error(error);
+                return false
             });
-        } catch (e) {
-            console.log("Error:",e);   
-        }
-
-        
-        setToken("a")
-        storeToken("a")
-        if (userDB)
-            return true
-
-        return false
-
+return response
     };
 
     // const setPostsForUser = async (postIds: number[]) => {
@@ -126,7 +123,6 @@ export const UserContextProvider = ({ children }: UserProviderProps) => {
     //                 password: userDB!.password,
     //                 dateOfBirth: userDB!.dateOfBirth,
     //                 state: userDB!.state,
-    //                 city: userDB!.city,
     //                 avatar: userDB!.avatar,
     //                 favorites: posts
     //             }
@@ -138,19 +134,21 @@ export const UserContextProvider = ({ children }: UserProviderProps) => {
     // }
 
     const signUp = async (user: UserDB) => {
-    
+        console.log("user",user)
         try {
             const db = getDatabase();
-            set(ref(db, 'users/' + user.email), {
+            set(ref(db, 'users/' + user.name), {
               name: user.name,
               email: user.email,
               password : user.password,
               dateOfBirth: user.dateOfBirth,
-              city: user.city,
               state: user.state,
               avatar: user.avatar
             });
         } catch (e) {
+            Alert.alert('Erro', 'Não foi possivel cadastrar a conta', [
+                {text: 'OK'},
+              ]);
             console.log("Error:", e);    
         }
           
@@ -166,24 +164,39 @@ export const UserContextProvider = ({ children }: UserProviderProps) => {
 
     const updateUser = async(user: UserDB) => {
         try {
+            console.log(user)
             const db = getDatabase();
-            set(ref(db, 'users/' + user.email), {
+            set(ref(db, 'users/' + user.name), {
               name: user.name,
               email: user.email,
               password : user.password,
               dateOfBirth: user.dateOfBirth,
-              city: user.city,
               state: user.state,
               avatar: user.avatar
             });
+            setUserDB(user)
         } catch (e) {
+            Alert.alert('Erro', 'Não foi possível sair', [
+                {text: 'OK'},
+              ]);
+        
             console.log("Error:", e);    
         }
     }
 
     const deleteUser = async(email: string) => {
-        const dbFire = getFirestore()
-        deleteDoc(doc(dbFire, 'users', email))
+        try {
+            console.log(user)
+            const db = getDatabase();
+            set(ref(db, 'users/' + email), null);
+            setUserDB(user)
+            logout()
+        } catch (e) {
+            Alert.alert('Erro', 'Não foi possivel excluir a conta', [
+                {text: 'OK'},
+              ]);
+            console.log("Error:", e);    
+        }
     }
 
     return (

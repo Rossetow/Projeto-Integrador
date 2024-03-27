@@ -17,25 +17,6 @@ const Login = ({ navigation }: any) => {
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const storeData = async (value: any) => {
-        try {
-            const jsonValue = JSON.stringify(value)
-            await AsyncStorage.setItem("login", jsonValue);
-        } catch (e) {
-            Alert.alert("Alerta!", "Algo deu errado /n Código do erro: " + e, [{ text: "Ok" }])
-            console.log("Error: " + e)
-        }
-    }
-
-    const getData = async () => {
-        try {
-            const jsonValue = await AsyncStorage.getItem("login");
-            return jsonValue != null ? JSON.parse(jsonValue) : null
-        } catch (e) {
-            Alert.alert("Alerta!", "Algo deu errado! /n Código do erro: " + e, [{ text: "Ok" }])
-            console.log("Erro: " + e)
-        }
-    }
 
     /*
 
@@ -52,29 +33,11 @@ const Login = ({ navigation }: any) => {
     */
 
     const handleLogin = async () => {
-        // if (!username || !password) {
-        //     Alert.alert("Alerta!", "Preencha os dados corretamente", [
-        //         { text: "Entendi!" }
-        //     ])
-        //     return;
-        // } else {
-        //     if (user.email === username && user.password === password) {
-        //         const loginData = {
-        //             username,
-        //             password
-        //         }
-        //         storeData(loginData)
-        //         navigation.navigate("Drawer")
-        //     } else {
-        //         Alert.alert("Alerta!", "Email ou senha incorreto", [
-        //             { text: "Entendi!" }
-        //         ])
-        //         return
-        //     }
-        // }
-
+        
         try{
-            if(await login(username))
+            const response = await login(username)
+            console.log('response',response)
+            if(response)
                 navigation.navigate("Drawer")
         } catch (e) {
             console.log("Error:", e)
@@ -94,7 +57,7 @@ const Login = ({ navigation }: any) => {
             style={styles.input}
             onChangeText={setUsername}
             value={username}
-            placeholder="E-mail"
+            placeholder="Username"
             placeholderTextColor="#999"
         />
         <TextInput

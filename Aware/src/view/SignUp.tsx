@@ -1,4 +1,4 @@
-import { useContext, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { Text, TextInput, View, StyleSheet, Button } from "react-native"
 import { Dropdown } from 'react-native-element-dropdown';
 import AntDesign from '@expo/vector-icons/AntDesign';
@@ -6,6 +6,8 @@ import DateTimePicker, { DateTimePickerAndroid } from '@react-native-community/d
 import { UserContext } from "../Contexts/UserContect";
 import { TouchableOpacity } from "react-native";
 import { UserDB } from "../types/User";
+import axios from "axios";
+import { StateDTO } from "../types/State";
 
 
 
@@ -54,26 +56,34 @@ const SignUp = ({ navigation }: any) => {
     const [isFocus, setIsFocus] = useState(false);
 
     //Provisory State and city data declaration
-    const data = [
-        { label: 'Item 1', value: '1' },
-        { label: 'Item 2', value: '2' },
-        { label: 'Item 3', value: '3' },
-        { label: 'Item 4', value: '4' },
-        { label: 'Item 5', value: '5' },
-        { label: 'Item 6', value: '6' },
-        { label: 'Item 7', value: '7' },
-        { label: 'Item 8', value: '8' },
-    ];
+    const [ dataDropdown, setDataDropdown ] = useState<StateDTO[]>([])
     const { signUp } = useContext(UserContext)
-    const saveUser = () => {
+    const handleSignUp = () => {
         console.log("chegou aqui")
-        const userAdd:UserDB = {name, email, password, dateOfBirth, state, city, avatar}
+        const userAdd:UserDB = {name, email, password, dateOfBirth, state, avatar}
         signUp(
             userAdd
         )
+        navigation.navigate("Login")
     }
 
+    const getStates = async() => {
+        const url = "https://servicodados.ibge.gov.br/api/v1/localidades/estados"
+        const response = await axios.get(url)
 
+        const dataStates:StateDTO[] = [] 
+
+        response.data.forEach((state: { nome: string; sigla: string; }) => {
+            dataStates.push({
+                label: state.nome,
+                value: state.sigla
+            })
+        });
+        setDataDropdown(dataStates)
+    }
+    useEffect(()=>{
+                getStates()
+            }, [])
     return (
         <View style={styles.container}>
 
@@ -83,7 +93,7 @@ const SignUp = ({ navigation }: any) => {
                 style={styles.input}
                 value={name}
                 onChangeText={setName}
-                placeholder="Nome completo:"
+                placeholder="Username:"
                 placeholderTextColor="#999"
             />
 
@@ -91,7 +101,7 @@ const SignUp = ({ navigation }: any) => {
                 style={styles.input}
                 onChangeText={setAvatar}
                 value={avatar}
-                placeholder="Nome de usuário:"
+                placeholder="Link para foto:"
                 placeholderTextColor="#999"
             />
 
@@ -122,20 +132,20 @@ const SignUp = ({ navigation }: any) => {
                 selectedTextStyle={styles.selectedTextStyle}
                 inputSearchStyle={styles.inputSearchStyle}
                 iconStyle={styles.iconStyle}
-                data={data}
+                data={dataDropdown}
                 search
                 maxHeight={300}
                 labelField="label"
                 valueField="value"
-                placeholder={!isFocus ? 'Cidade:' : '...'}
+                placeholder={!isFocus ? 'Estado:' : '...'}
                 searchPlaceholder="Search..."
                 value={valueCidade}
                 onFocus={() => setIsFocus(true)}
                 onBlur={() => setIsFocus(false)}
                 onChange={item => {
-                    setValueCidade(item.value);
+                    setValueEstado(item.value);
                     setIsFocus(false);
-                    setCity(item.label)
+                    setState(item.label)
                 }}
                 renderLeftIcon={() => (
                     <AntDesign
@@ -148,7 +158,7 @@ const SignUp = ({ navigation }: any) => {
             />
 
             <TouchableOpacity
-                onPress={saveUser}
+                onPress={handleSignUp}
                 style={styles.button}
             >
                 <Text style={styles.salvarcolor}>

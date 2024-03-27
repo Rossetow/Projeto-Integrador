@@ -5,6 +5,7 @@ import styled from 'styled-components/native';
 import { ThemeContext } from "../Contexts/ThemeContext";
 import {dark, light} from "../constants/theme" 
 
+
 const ContainerHeader = styled.View`
   display: flex;
   flex-direction: row;
@@ -20,12 +21,7 @@ const UserHeader = styled.View`
   align-items: center;
 `;
 
-const TextoFormatado = styled.Text`
-  padding-left: 5px; 
-  font-weight: bold; 
-  font-size:15px;
-  color:black;
-`;
+
 
 
 interface Props {
@@ -34,8 +30,14 @@ interface Props {
 }
 
 const Header: FC<Props> = ({avatar, username}) => {
+  const { theme } = useContext(ThemeContext)
+  const TextoFormatado = styled.Text`
+  padding-left: 5px; 
+  font-weight: bold; 
+  font-size:15px;
+  color: ${theme == "dark" ? light.background : dark.background};
+`;
 
-    const { theme } = useContext(ThemeContext)
 
     return(
         <ContainerHeader>
