@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { View, Text, Button, TextInput, StyleSheet } from "react-native";
+import { View, Text, Button, TextInput, StyleSheet, Image } from "react-native";
 import { UserContext } from "../Contexts/UserContect";
 import SignUp from "./SignUp";
 import styled from 'styled-components/native';
@@ -215,11 +215,44 @@ const Profile = ({ navigation }: any) => {
         color: 'black',
         marginLeft: 10,
     },
+    image: {
+        height: 100,
+        width: 100,
+        borderRadius: 100,
+        display: isEditable ? "none" : "flex"
+    },
+    inputImage: {
+        backgroundColor: isEditable ? "#fff" : "#a9a9a9",
+        borderBottomColor: "#000",
+        borderBottomWidth: 1,
+        marginBottom: 10,
+        height: 40,
+        width: '80%',
+        margin: 12,
+        padding: 10,
+        borderWidth: 1,
+        borderColor: '#999',
+        borderRadius: 3,
+        display: isEditable ? "flex" : "none"
+    }
 
     })
 
     return (
     <View style={styles.container}>
+
+        <Image
+        source={{uri:userDB?.avatar}}
+        style = {styles.image}
+        />
+
+<TextInput
+            style={styles.inputImage}
+            editable={isEditable}
+            value={userDB!.avatar}
+            placeholder="Avatar:"
+        />
+
 
         <TextInput
             style={styles.input}
@@ -312,8 +345,6 @@ const Profile = ({ navigation }: any) => {
             </Text>
 
         </TouchableOpacity>
-
-
 
         <TouchableOpacity
             onPress={handleUpdateUser}
