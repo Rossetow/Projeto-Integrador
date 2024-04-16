@@ -6,6 +6,7 @@ import SignUp from "./SignUp";
 import { UserContext } from "../Contexts/UserContect";
 import { User, UserDB } from "../types/User";
 import axios from "axios";
+import { dbExport as db } from "../db";
 
 
 const Login = ({ navigation }: any) => {
@@ -14,7 +15,17 @@ const Login = ({ navigation }: any) => {
 
     const { login, setUser } = useContext(UserContext)
 
+console.log(db);
 
+
+    db.transaction((tx)=> {
+        tx.executeSql(`
+          SELECT * FROM Users;
+        `, [],
+      (_, { rows: { _array }})=> {
+        console.log(_array);
+      })
+      })
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
@@ -33,20 +44,14 @@ const Login = ({ navigation }: any) => {
     */
 
     const handleLogin = async () => {
+
+        console.log("oiii")
         
-        try{
-            const response = await login(username)
-            console.log('response',response)
-            if(response)
-                navigation.navigate("Drawer")
-        } catch (e) {
-            console.log("Error:", e)
+        if( await login(username, password)){
+            navigation.navigate("Drawer")
         }
         
     }
-
-    
-
     return (
 
     <View style={styles.container}>

@@ -12,7 +12,7 @@
  server.use('/aware', userRouter.server)
 
  // mensagem no terminal para indicar o funcionamento
- server.listen(3000, () =>{
+ server.listen(5000, () =>{
      console.log(`O servidor está funcionando! :D`);
  })
 

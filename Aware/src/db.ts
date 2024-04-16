@@ -1,24 +1,31 @@
-import { initializeApp } from "firebase/app";
-import { Database, getDatabase } from "firebase/database";
+import * as SQLite from "expo-sqlite"
 
+let dbExport: SQLite.SQLiteDatabase
+ const createDatabase = () => {
+    const openDatabase = () => {
+        const db = SQLite.openDatabase("db.db");
+        return db;
+    };
 
-let exportDB: Database
-const startDB = () => {
-    // TODO: Replace the following with your app's Firebase project configuration
-// See: https://firebase.google.com/docs/web/learn-more#config-object
-const firebaseConfig = {
-    // ...
-    // The value of `databaseURL` depends on the location of the database
-    databaseURL: "https://awaredb-3cfbb-default-rtdb.firebaseio.com/",
-  };
-  
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  
-  
-  // Initialize Realtime Database and get a reference to the service
-  const database = getDatabase(app);
-  exportDB = database
+    const db = openDatabase();
+
+    db.transaction((tx) => {
+        tx.executeSql(
+            `
+            CREATE TABLE IF NOT EXISTS Users (
+              id integer primary key not null,
+              name text,
+              email text unique,
+              password text,
+              date_of_birth text,
+              state text,
+              avatar string
+            );`
+        );
+    })
+    console.log("criando db");
+    
+    dbExport = db
 }
 
-export { startDB, exportDB as db }
+export {createDatabase, dbExport}

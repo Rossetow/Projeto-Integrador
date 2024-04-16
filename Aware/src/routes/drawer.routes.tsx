@@ -14,7 +14,7 @@ export const DrawerRoutes = () => {
 const MenuIcon = (nav: any) => {
     return (
         <View style={{marginLeft: 20}}>
-             <FontAwesome5  name="bars" onPress={nav.toggleDrawer} size={25} color={theme==="dark" ? dark.color : light.color} />
+            <FontAwesome5  name="bars" onPress={nav.toggleDrawer} size={25} color={theme==="dark" ? dark.color : light.color} />
         </View>
     )
 }
@@ -24,23 +24,24 @@ const MenuIcon = (nav: any) => {
     return(
         <Drawer.Navigator
         screenOptions={({ navigation }) => ({
-            headerTitle: "",
-            drawerStyle: {
-                backgroundColor: theme==="dark" ? dark.background : light.background,
-            },
-            drawerLabelStyle: {
-                color: theme==="dark" ? dark.color : light.color
-            },
-            headerLeft: () => (
-               MenuIcon(navigation)
-                ),
+        //     headerTitle: "",
+        //     drawerStyle: {
+        //         backgroundColor: theme==="dark" ? dark.background : light.background,
+        //     },
+        //     drawerLabelStyle: {
+        //         color: theme==="dark" ? dark.color : light.color
+        //     },
+        //     headerLeft: () => (
+        //        MenuIcon(navigation)
+        //         ),
            
-            headerStyle: {
-              backgroundColor: theme==="dark" ? light.color : dark.color,
+        //     headerStyle: {
+        //       backgroundColor: theme==="dark" ? light.color : dark.color,
             
-            },
-            headerTintColor: theme==="dark" ? dark.color : light.color,
-          })}>
+        //     },
+        //     headerTintColor: theme==="dark" ? dark.color : light.color,
+        //   
+    })}>
             <Drawer.Screen
             name="Initial"
             component={Home}

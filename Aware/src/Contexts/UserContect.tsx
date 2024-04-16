@@ -3,7 +3,7 @@ import { ReactNode, createContext, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { User, UserDB } from "../types/User";
 import { Post } from "../types/Post";
-import { db } from "../db";
+import { dbExport as db } from "../db";
 import { collection, addDoc, getDoc, deleteDoc, doc, getFirestore, } from "firebase/firestore";
 import { getDatabase, ref, child, get, set } from "firebase/database";
 import Toast from "react-native-root-toast";
@@ -17,7 +17,7 @@ type UserContextProps = {
     setUserDB: (user: UserDB) => void;
     user: User | null;
     setUser: (user: User | null) => void;
-    login: (email: string) => Promise<boolean>;
+    login: (email: string, password: string) => Promise<boolean>;
     logout: () => void;
     signUp: (user: UserDB) => void;
     updateUser: (user: UserDB) => void;
@@ -67,44 +67,40 @@ export const UserContextProvider = ({ children }: UserProviderProps) => {
         }
     };
 
-    const login = async (username: string) => {
-        
-            const dbRef = ref(getDatabase());
-            console.log('username',username);
+    const setUserForApp = async(email:string, password: string) => {
+        db.transaction((tx) => {
+            tx.executeSql(`
+                SELECT * FROM Users;
+            `, [],
+        (_, { rows: { _array }}) => {
+
+            console.log(_array)
+
+            const userAdd: UserDB = {
+                name: _array[0].name,
+                email: _array[0].email,
+                password: _array[0].password,
+                dateOfBirth: _array[0].dateOfBirth,
+                state: _array[0].state,
+                avatar: _array[0].avatar,
+            }       
             
-        const response = get(child(dbRef, `users/${username}`)).then((snapshot) => {
-                if (snapshot.exists()) {
+            console.log("esse é o user add:",userAdd)    
+            setUserDB(userAdd)
+        })
+        })
+    }
 
-                    const newUserDB:UserDB = {
-                        name: snapshot.val().name,
-                        email: snapshot.val().email,
-                        password: snapshot.val().password,
-                        state: snapshot.val().state,
-                        dateOfBirth: snapshot.val().dateOfBirth,
-                        avatar: snapshot.val().avatar,
-                    }
+    const login = async (email: string, password: string) => {
+        
 
-                   
+        setUserForApp(email, password)
+        
 
-                    setUserDB(newUserDB)
-                    console.log(userDB)
-                    setToken("a")
-                    storeToken("a")
-                    console.log('user', userDB)
-                    return true;
-                } else {
+        console.log(userDB);
 
-                    Alert.alert('Erro', 'Não foi possível logar', [
-                        {text: 'OK'},
-                      ]);
-                    console.log("No data available");
-                    return false
-                }
-            }).catch((error) => {
-                console.error(error);
-                return false
-            });
-return response
+
+        return true;
     };
 
     // const setPostsForUser = async (postIds: number[]) => {
@@ -135,22 +131,14 @@ return response
 
     const signUp = async (user: UserDB) => {
         console.log("user",user)
-        try {
-            const db = getDatabase();
-            set(ref(db, 'users/' + user.name), {
-              name: user.name,
-              email: user.email,
-              password : user.password,
-              dateOfBirth: user.dateOfBirth,
-              state: user.state,
-              avatar: user.avatar
-            });
-        } catch (e) {
-            Alert.alert('Erro', 'Não foi possivel cadastrar a conta', [
-                {text: 'OK'},
-              ]);
-            console.log("Error:", e);    
-        }
+        db.transaction(tx => {
+            tx.executeSql(
+                `
+                    INSERT INTO TABLE Users (name, email, password, dateOfBirth, state, avatar) VALUES (?, ?, ? ,?, ?, ?);
+                `,
+                [user.name, user.email, user.password, user.dateOfBirth, user.state, user.avatar]
+            )
+        })
           
     }
 
@@ -163,40 +151,11 @@ return response
     };
 
     const updateUser = async(user: UserDB) => {
-        try {
-            console.log(user)
-            const db = getDatabase();
-            set(ref(db, 'users/' + user.name), {
-              name: user.name,
-              email: user.email,
-              password : user.password,
-              dateOfBirth: user.dateOfBirth,
-              state: user.state,
-              avatar: user.avatar
-            });
-            setUserDB(user)
-        } catch (e) {
-            Alert.alert('Erro', 'Não foi possível sair', [
-                {text: 'OK'},
-              ]);
         
-            console.log("Error:", e);    
-        }
     }
 
-    const deleteUser = async(email: string) => {
-        try {
-            console.log(user)
-            const db = getDatabase();
-            set(ref(db, 'users/' + email), null);
-            setUserDB(user)
-            logout()
-        } catch (e) {
-            Alert.alert('Erro', 'Não foi possivel excluir a conta', [
-                {text: 'OK'},
-              ]);
-            console.log("Error:", e);    
-        }
+    const deleteUser = async(username: string) => {
+        
     }
 
     return (

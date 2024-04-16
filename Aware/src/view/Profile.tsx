@@ -94,7 +94,7 @@ const Profile = ({ navigation }: any) => {
 
     //Date picker setters and getters declaration
 
-    const [date, setDate] = useState(new Date(1598051730000));
+    const [date, setDate] = useState(new Date());
     const [mode, setMode] = useState('date');
     const [show, setShow] = useState(false);
 
@@ -287,7 +287,6 @@ const Profile = ({ navigation }: any) => {
 
             <View style={styles.buttondata}>
                 <Button onPress={showDatepicker} title="Data de nascimento" color="black" />
-                <Text style={styles.buttonText}>`{date.getDay()}/{date.getMonth()}/{date.getFullYear()}`</Text>
             </View>
 
         <TextInput
